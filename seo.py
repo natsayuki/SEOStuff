@@ -121,7 +121,7 @@ def combineCSV(terms):
                         line = line.replace(char,'')
                     with open("websites/"+term+"/"+line+".json") as f:
                         data = json.load(f)
-                        csvLine = data['url']+','+str(data['tags'])+','+str(data['ping'])+','+str(data['ssl'])+','+str(data['robots'])+','+str(data['errors'])+','+str(data['termInUrl'])+','+str(data['termsInTitle'])+','+str(data['termsInPage'])+'\n'
+                        csvLine = data['url']+'~'+str(data['tags'])+'~'+str(data['ping'])+'~'+str(data['ssl'])+'~'+str(data['robots'])+'~'+str(data['errors'])+'~'+str(data['termInUrl'])+'~'+str(data['termsInTitle'])+'~'+str(data['termsInPage'])+'\n'
                         total += csvLine
                         with open("websites/total.csv", "a") as f:
                             f.write(csvLine)
