@@ -90,6 +90,26 @@ def generateSearchTerms(amnt):
         json.dump(terms, f)
     return terms
 
+def convertTagsToCSV(term):
+    try:
+        with open("websites/"+term+"/"+term+".websites") as f:
+            for line in f.readlines():
+                for char in '/:.?&=\n':
+                    line = line.replace(char,'')
+                with open("websites/"+term+"/"+line+".json") as f:
+                    data = json.load(f)
+                    csvString = ""
+                    for tag in data['tags']:
+                        csvString += tag + ',' + str(data['tags'][tag]) + '\n'
+                    with open("websites/"+term+"/"+line+".csv", "w+") as f:
+                        print("websites/"+term+"/"+line+".csv")
+                        f.write(csvString)
+    except:
+        None
+
+def compileTagsToCSV(terms):
+    for term in terms:
+        convertTagsToCSV(term)
 # TODO
 # Date written
 # Syntax errors
@@ -103,11 +123,12 @@ with open("terms.json") as f:
 
 ########## REDO BEING, guess, ear, physical, floor, gas
 
-searchTerms = ["garage", "carpet", "fish", "permit", "shock", "tour", "lip", "combine", "entertainment", "milk", "sock", "prize", "few", "bird", "actor", "expert", "crew", "emotion", "role", "march"]
+# searchTerms = ["garage", "carpet", "fish", "permit", "shock", "tour", "lip", "combine", "entertainment", "milk", "sock", "prize", "few", "bird", "actor", "expert", "crew", "emotion", "role", "march"]
 
 
 
 # compileWebsites(searchTerms)
-compileHTML(searchTerms)
+# compileHTML(searchTerms)
 # getHTML('actor')
+compileTagsToCSV(searchTerms)
 print('done')
