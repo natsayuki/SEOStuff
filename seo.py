@@ -110,6 +110,28 @@ def convertTagsToCSV(term):
 def compileTagsToCSV(terms):
     for term in terms:
         convertTagsToCSV(term)
+
+def combineCSV(terms):
+    total = ""
+    for term in terms:
+        with open("websites/"+term+"/"+term+".websites") as f:
+            for line in f.readlines():
+                try:
+                    for char in '/:.?&=\n':
+                        line = line.replace(char,'')
+                    with open("websites/"+term+"/"+line+".json") as f:
+                        data = json.load(f)
+                        csvLine = data['url']+','+str(data['tags'])+','+str(data['ping'])+','+str(data['ssl'])+','+str(data['robots'])+','+str(data['errors'])+','+str(data['termInUrl'])+','+str(data['termsInTitle'])+','+str(data['termsInPage'])+'\n'
+                        total += csvLine
+                        with open("websites/total.csv", "a") as f:
+                            f.write(csvLine)
+                except:
+                    None
+
+    # with open("websites/total.csv", "w") as f:
+    print(total)
+        # f.write(total)
+
 # TODO
 # Date written
 # Syntax errors
@@ -130,5 +152,6 @@ with open("terms.json") as f:
 # compileWebsites(searchTerms)
 # compileHTML(searchTerms)
 # getHTML('actor')
-compileTagsToCSV(searchTerms)
+# compileTagsToCSV(searchTerms)
+combineCSV(searchTerms)
 print('done')
