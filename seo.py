@@ -128,9 +128,21 @@ def combineCSV(terms):
                 except:
                     None
 
-    # with open("websites/total.csv", "w") as f:
-    print(total)
-        # f.write(total)
+def combineJSON(terms):
+    total = {}
+    for term in terms:
+        with open("websites/"+term+"/"+term+".websites") as f:
+            for line in f.readlines():
+                try:
+                    for char in '/:.?&=\n':
+                        line = line.replace(char,'')
+                    with open("websites/"+term+"/"+line+".json") as f:
+                        data = json.load(f)
+                    total[data['url']] = data
+                except:
+                    None
+    with open("websites/total.json", "a") as f:
+        json.dump(total, f)
 
 # TODO
 # Date written
@@ -153,5 +165,6 @@ with open("terms.json") as f:
 # compileHTML(searchTerms)
 # getHTML('actor')
 # compileTagsToCSV(searchTerms)
-combineCSV(searchTerms)
+# combineCSV(searchTerms)
+combineJSON(searchTerms)
 print('done')
