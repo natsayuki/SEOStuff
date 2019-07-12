@@ -132,12 +132,15 @@ def combineJSON(terms):
     total = {}
     for term in terms:
         with open("websites/"+term+"/"+term+".websites") as f:
-            for line in f.readlines():
+            for index, url in enumerate(f.readlines()):
                 try:
+                    line = url
                     for char in '/:.?&=\n':
                         line = line.replace(char,'')
-                    with open("websites/"+term+"/"+line+".json") as f:
-                        data = json.load(f)
+                    with open("websites/"+term+"/"+line+".json") as g:
+                        data = json.load(g)
+                        data['term'] = term
+                        data['rank'] = index
                     total[data['url']] = data
                 except:
                     None
