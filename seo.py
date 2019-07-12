@@ -127,7 +127,7 @@ def combineCSV(terms):
                         data['ssl'] = 1 if data['ssl'] else 0
                         data['termsInTitle'] = len(data['termsInTitle'])
                         data['termsInPage'] = len(data['termsInPage'])
-                        csvLine = data['url']+'~'+str(data['tags'])+'~'+str(data['ping'])+'~'+str(data['ssl'])+'~'+str(data['robots'])+'~'+str(data['errors'])+'~'+str(data['termInUrl'])+'~'+str(data['termsInTitle'])+'~'+str(data['termsInPage'])+'\n'
+                        csvLine = data['url']+'~'+str(data['tags'])+'~'+str(data['ping'])+'~'+str(data['ssl'])+'~'+str(data['robots'])+'~'+str(data['errors'])+'~'+str(data['termInUrl'])+'~'+str(data['termsInTitle'])+'~'+str(data['termsInPage'])+'~'+str(data['term'])+'~'+str(data['rank'])+'\n'
                         total += csvLine
                         with open("websites/total.csv", "a") as f:
                             f.write(csvLine)
