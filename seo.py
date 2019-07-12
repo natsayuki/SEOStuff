@@ -141,6 +141,10 @@ def combineJSON(terms):
                         data = json.load(g)
                         data['term'] = term
                         data['rank'] = index
+                        data['robots'] = 1 if data['robots'] else 0
+                        data['ssl'] = 1 if data['ssl'] else 0
+                        data['termsInTitle'] = len(data['termsInTitle'])
+                        data['termsInPage'] = len(data['termsInPage'])
                     total[data['url']] = data
                 except:
                     None
