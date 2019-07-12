@@ -178,6 +178,6 @@ with open("terms.json") as f:
 # compileHTML(searchTerms)
 # getHTML('actor')
 # compileTagsToCSV(searchTerms)
-# combineCSV(searchTerms)
-combineJSON(searchTerms)
+combineCSV(searchTerms)
+# combineJSON(searchTerms)
 print('done')
