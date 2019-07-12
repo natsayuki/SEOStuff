@@ -146,11 +146,11 @@ def combineJSON(terms):
                     with open("websites/"+term+"/"+line+".json") as g:
                         data = json.load(g)
                         data['term'] = term
-                        data['rank'] = index
                         data['robots'] = 1 if data['robots'] else 0
                         data['ssl'] = 1 if data['ssl'] else 0
                         data['termsInTitle'] = len(data['termsInTitle'])
                         data['termsInPage'] = len(data['termsInPage'])
+                        data['rank'] = index
                     total[data['url']] = data
                 except:
                     None
@@ -178,6 +178,6 @@ with open("terms.json") as f:
 # compileHTML(searchTerms)
 # getHTML('actor')
 # compileTagsToCSV(searchTerms)
-combineCSV(searchTerms)
-# combineJSON(searchTerms)
+# combineCSV(searchTerms)
+combineJSON(searchTerms)
 print('done')
