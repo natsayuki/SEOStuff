@@ -113,6 +113,8 @@ def compileTagsToCSV(terms):
 
 def combineCSV(terms):
     total = ""
+    with open("websites/total.csv", "w") as f:
+        f.write("")
     for term in terms:
         with open("websites/"+term+"/"+term+".websites") as f:
             for index, line in enumerate(f.readlines()):
@@ -140,7 +142,7 @@ def combineCSV(terms):
                         data['a'] = tags['a'] if 'a' in tags else 0
                         csvLine = data['url']+'~'+str(data['tags'])+'~'+str(data['ping'])+'~'+str(data['ssl'])+'~'+str(data['robots'])+'~'+str(data['errors'])+'~'+str(data['termInUrl'])+'~'+str(data['termsInTitle'])+'~'+str(data['termsInPage'])+'~'+str(data['term'])+'~'+str(data['h1'])+'~'+str(data['meta'])+'~'+str(data['script'])+'~'+str(data['img'])+'~'+str(data['iframe'])+'~'+str(data['video'])+'~'+str(data['p'])+'~'+str(data['link'])+'~'+str(data['a'])+'~'+str(data['rank'])+'\n'
                         total += csvLine
-                        with open("websites/total.csv", "w") as f:
+                        with open("websites/total.csv", "a") as f:
                             f.write(csvLine)
                 except:
                     None
