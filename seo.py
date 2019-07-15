@@ -58,7 +58,7 @@ def getHTML(term):
                 robots = False
                 if robotsFile.status_code == 200:
                     robots = True
-                errors = json.loads(requests.get("https://validator.nu/?doc="+URL+"&out=json").text)
+                errors = json.loads(requests.get("https://validator.nu/ ifdoc="+URL+"&out=json").text)
                 obj['tags'] = count
                 obj['ping'] = ping
                 obj['ssl'] = SSL
@@ -68,7 +68,7 @@ def getHTML(term):
                 obj['url'] = URL
                 obj['robots'] = True
                 obj['errors'] = len(errors['messages'])
-                for char in '/:.?&=':
+                for char in '/:. if&=':
                     file = file.replace(char,'')
                 with open("websites/"+term+"/"+file+".json", "w") as f:
                     print("websites/"+term+"/"+file+".json")
@@ -94,7 +94,7 @@ def convertTagsToCSV(term):
     try:
         with open("websites/"+term+"/"+term+".websites") as f:
             for line in f.readlines():
-                for char in '/:.?&=\n':
+                for char in '/:. if&=\n':
                     line = line.replace(char,'')
                 with open("websites/"+term+"/"+line+".json") as f:
                     data = json.load(f)
@@ -117,7 +117,7 @@ def combineCSV(terms):
         with open("websites/"+term+"/"+term+".websites") as f:
             for index, line in enumerate(f.readlines()):
                 try:
-                    for char in '/:.?&=\n':
+                    for char in '/:. if&=\n':
                         line = line.replace(char,'')
                     with open("websites/"+term+"/"+line+".json") as f:
                         data = json.load(f)
@@ -129,19 +129,20 @@ def combineCSV(terms):
                         data['termsInPage'] = len(data['termsInPage'])
                         csvLine = data['url']+'~'+str(data['tags'])+'~'+str(data['ping'])+'~'+str(data['ssl'])+'~'+str(data['robots'])+'~'+str(data['errors'])+'~'+str(data['termInUrl'])+'~'+str(data['termsInTitle'])+'~'+str(data['termsInPage'])+'~'+str(data['term'])+'~'+str(data['rank'])+'\n'
                         total += csvLine
-                        with open("websites/total.csv", "a") as f:
+                        with open("websites/total.csv", "w") as f:
                             f.write(csvLine)
                 except:
                     None
 
 def combineJSON(terms):
     total = {}
+    totalTags = {}
     for term in terms:
         with open("websites/"+term+"/"+term+".websites") as f:
             for index, url in enumerate(f.readlines()):
                 try:
                     line = url
-                    for char in '/:.?&=\n':
+                    for char in '/:. if&=\n':
                         line = line.replace(char,'')
                     with open("websites/"+term+"/"+line+".json") as g:
                         data = json.load(g)
@@ -151,16 +152,29 @@ def combineJSON(terms):
                         data['termsInTitle'] = len(data['termsInTitle'])
                         data['termsInPage'] = len(data['termsInPage'])
                         data['rank'] = index
+                        tags = data['tags']
+                        totalTagsTemp = {}
+                        totalTagsTemp['h1'] = tags['h1'] if 'h1' in tags else 0
+                        totalTagsTemp['meta'] = tags['meta'] if 'meta' in tags else 0
+                        totalTagsTemp['script'] = tags['script'] if 'script' in tags else 0
+                        totalTagsTemp['img'] = tags['img'] if 'img' in tags else 0
+                        totalTagsTemp['iframe'] = tags['iframe'] if 'iframe' in tags else 0
+                        totalTagsTemp['video'] = tags['video'] if 'video' in tags else 0
+                        totalTagsTemp['p'] = tags['p'] if 'p' in tags else 0
+                        totalTagsTemp['link'] = tags['link'] if 'link' in tags else 0
+                        totalTagsTemp['a'] = tags['a'] if 'a' in tags else 0
+                    totalTags[data['url']] = totalTagsTemp
                     total[data['url']] = data
                 except:
                     None
-    with open("websites/total.json", "a") as f:
+    with open("websites/total.json", "w") as f:
         json.dump(total, f)
+    with open("websites/totaltags.json", "w") as f:
+        json.dump(totalTags, f)
 
 # TODO
-# Date written
-# Syntax errors
 # Meta
+# Images
 
 # "Barack Obama", "Pizza", "Computers", "Baseball", "Alexa", "SEO", "Twitter", "potato", "steak", "building", "sweet potato", "mashed potato", "pokemon fled", "cat", "spicy", "projector"
 
@@ -178,6 +192,6 @@ with open("terms.json") as f:
 # compileHTML(searchTerms)
 # getHTML('actor')
 # compileTagsToCSV(searchTerms)
-combineCSV(searchTerms)
-# combineJSON(searchTerms)
+# combineCSV(searchTerms)
+combineJSON(searchTerms)
 print('done')
