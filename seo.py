@@ -119,7 +119,7 @@ def combineCSV(terms):
         with open("websites/"+term+"/"+term+".websites") as f:
             for index, line in enumerate(f.readlines()):
                 try:
-                    for char in '/:. if&=\n':
+                    for char in '/?:.&=\n':
                         line = line.replace(char,'')
                     with open("websites/"+term+"/"+line+".json") as f:
                         data = json.load(f)
@@ -153,9 +153,10 @@ def combineJSON(terms):
     for term in terms:
         with open("websites/"+term+"/"+term+".websites") as f:
             for index, url in enumerate(f.readlines()):
+                print(index)
                 try:
                     line = url
-                    for char in '/:. if&=\n':
+                    for char in '/:?.&=\n':
                         line = line.replace(char,'')
                     with open("websites/"+term+"/"+line+".json") as g:
                         data = json.load(g)
@@ -204,6 +205,6 @@ with open("terms.json") as f:
 # compileHTML(searchTerms)
 # getHTML('actor')
 # compileTagsToCSV(searchTerms)
-combineCSV(searchTerms)
-# combineJSON(searchTerms)
+# combineCSV(searchTerms)
+combineJSON(searchTerms)
 print('done')
