@@ -127,7 +127,19 @@ def combineCSV(terms):
                         data['ssl'] = 1 if data['ssl'] else 0
                         data['termsInTitle'] = len(data['termsInTitle'])
                         data['termsInPage'] = len(data['termsInPage'])
+
+                        tags = data['tags']
+                        data['h1'] = tags['h1'] if 'h1' in tags else 0
+                        data['meta'] = tags['meta'] if 'meta' in tags else 0
+                        data['script'] = tags['script'] if 'script' in tags else 0
+                        data['img'] = tags['img'] if 'img' in tags else 0
+                        data['iframe'] = tags['iframe'] if 'iframe' in tags else 0
+                        data['video'] = tags['video'] if 'video' in tags else 0
+                        data['p'] = tags['p'] if 'p' in tags else 0
+                        data['link'] = tags['link'] if 'link' in tags else 0
+                        data['a'] = tags['a'] if 'a' in tags else 0
                         csvLine = data['url']+'~'+str(data['tags'])+'~'+str(data['ping'])+'~'+str(data['ssl'])+'~'+str(data['robots'])+'~'+str(data['errors'])+'~'+str(data['termInUrl'])+'~'+str(data['termsInTitle'])+'~'+str(data['termsInPage'])+'~'+str(data['term'])+'~'+str(data['rank'])+'\n'
+                        tagLine = ttt['h1'] + '~' + ttt['meta'] + '~' + ttt['script'] + '~' + ttt['img'] + '~' + ttt['ifram'] + '~' + ttt['video'] + '~' + ttt['p'] + '~' + ttt['link'] + '~' + ttt['a']
                         total += csvLine
                         with open("websites/total.csv", "w") as f:
                             f.write(csvLine)
@@ -153,17 +165,16 @@ def combineJSON(terms):
                         data['termsInPage'] = len(data['termsInPage'])
                         data['rank'] = index
                         tags = data['tags']
-                        totalTagsTemp = {}
-                        totalTagsTemp['h1'] = tags['h1'] if 'h1' in tags else 0
-                        totalTagsTemp['meta'] = tags['meta'] if 'meta' in tags else 0
-                        totalTagsTemp['script'] = tags['script'] if 'script' in tags else 0
-                        totalTagsTemp['img'] = tags['img'] if 'img' in tags else 0
-                        totalTagsTemp['iframe'] = tags['iframe'] if 'iframe' in tags else 0
-                        totalTagsTemp['video'] = tags['video'] if 'video' in tags else 0
-                        totalTagsTemp['p'] = tags['p'] if 'p' in tags else 0
-                        totalTagsTemp['link'] = tags['link'] if 'link' in tags else 0
-                        totalTagsTemp['a'] = tags['a'] if 'a' in tags else 0
-                    totalTags[data['url']] = totalTagsTemp
+                        data['h1'] = tags['h1'] if 'h1' in tags else 0
+                        data['meta'] = tags['meta'] if 'meta' in tags else 0
+                        data['script'] = tags['script'] if 'script' in tags else 0
+                        data['img'] = tags['img'] if 'img' in tags else 0
+                        data['iframe'] = tags['iframe'] if 'iframe' in tags else 0
+                        data['video'] = tags['video'] if 'video' in tags else 0
+                        data['p'] = tags['p'] if 'p' in tags else 0
+                        data['link'] = tags['link'] if 'link' in tags else 0
+                        data['a'] = tags['a'] if 'a' in tags else 0
+                    # totalTags[data['url']] = totalTagsTemp
                     total[data['url']] = data
                 except:
                     None
