@@ -138,8 +138,7 @@ def combineCSV(terms):
                         data['p'] = tags['p'] if 'p' in tags else 0
                         data['link'] = tags['link'] if 'link' in tags else 0
                         data['a'] = tags['a'] if 'a' in tags else 0
-                        csvLine = data['url']+'~'+str(data['tags'])+'~'+str(data['ping'])+'~'+str(data['ssl'])+'~'+str(data['robots'])+'~'+str(data['errors'])+'~'+str(data['termInUrl'])+'~'+str(data['termsInTitle'])+'~'+str(data['termsInPage'])+'~'+str(data['term'])+'~'+str(data['rank'])+'\n'
-                        tagLine = ttt['h1'] + '~' + ttt['meta'] + '~' + ttt['script'] + '~' + ttt['img'] + '~' + ttt['ifram'] + '~' + ttt['video'] + '~' + ttt['p'] + '~' + ttt['link'] + '~' + ttt['a']
+                        csvLine = data['url']+'~'+str(data['tags'])+'~'+str(data['ping'])+'~'+str(data['ssl'])+'~'+str(data['robots'])+'~'+str(data['errors'])+'~'+str(data['termInUrl'])+'~'+str(data['termsInTitle'])+'~'+str(data['termsInPage'])+'~'+str(data['term'])+'~'+str(data['h1'])+'~'+str(data['meta'])+'~'+str(data['script'])+'~'+str(data['img'])+'~'+str(data['iframe'])+'~'+str(data['video'])+'~'+str(data['p'])+'~'+str(data['link'])+'~'+str(data['a'])+'~'+str(data['rank'])+'\n'
                         total += csvLine
                         with open("websites/total.csv", "w") as f:
                             f.write(csvLine)
@@ -203,6 +202,6 @@ with open("terms.json") as f:
 # compileHTML(searchTerms)
 # getHTML('actor')
 # compileTagsToCSV(searchTerms)
-# combineCSV(searchTerms)
-combineJSON(searchTerms)
+combineCSV(searchTerms)
+# combineJSON(searchTerms)
 print('done')
