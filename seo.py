@@ -18,19 +18,22 @@ def fetchSites(term):
     return search(term, num=num, pause=pause, stop=stop)
 
 def compileWebsites(terms):
-    for index, term in enumerate(terms):
-        data = fetchSites(term)
-        per = (index/len(terms))*100
-        print(str(per)+ "% complete [" + ("#" * int(prop(per, 0, 100, 0, 20)))  + (" " * (20 - int(prop(per, 0, 100, 0, 20)))) + "]")
-        try:
-            os.mkdir('websites/'+term)
-        except:
-            None
-        with open('websites/'+term+'/'+term+'.websites', 'w+') as f:
-            for i, point in enumerate(data):
-                # per = index * (i/len(data)) * 100
-                # print(str(per)  +"% complete" + ("#" * math.ceil(per/100))  + (" " * (20 - math.ceil(per/100))) + "]")
-                f.write(point + '\n')
+    try:
+        for index, term in enumerate(terms):
+            data = fetchSites(term)
+            per = (index/len(terms))*100
+            print(str(per)+ "% complete [" + ("#" * int(prop(per, 0, 100, 0, 20)))  + (" " * (20 - int(prop(per, 0, 100, 0, 20)))) + "]")
+            try:
+                os.mkdir('websites/'+term)
+            except:
+                None
+            with open('websites/'+term+'/'+term+'.websites', 'w+') as f:
+                for i, point in enumerate(data):
+                    # per = index * (i/len(data)) * 100
+                    # print(str(per)  +"% complete" + ("#" * math.ceil(per/100))  + (" " * (20 - math.ceil(per/100))) + "]")
+                    f.write(point + '\n')
+    except:
+        None
     print("100% complete [####################]")
 
 def getHTML(term):
@@ -58,7 +61,7 @@ def getHTML(term):
                 robots = False
                 if robotsFile.status_code == 200:
                     robots = True
-                errors = json.loads(requests.get("https://validator.nu/ ifdoc="+URL+"&out=json").text)
+                errors = json.loads(requests.get("https://validator.nu/?doc="+URL+"&out=json").text)
                 obj['tags'] = count
                 obj['ping'] = ping
                 obj['ssl'] = SSL
@@ -86,7 +89,7 @@ def generateSearchTerms(amnt):
         nouns = json.load(f)
         for i in range(amnt):
             terms.append(nouns[random.randint(0, len(nouns))])
-    with open('terms.json', 'w+') as f:
+    with open('terms.json', 'w') as f:
         json.dump(terms, f)
     return terms
 
@@ -116,6 +119,8 @@ def combineCSV(terms):
     with open("websites/total.csv", "w") as f:
         f.write("")
     for term in terms:
+        # if term in ignore:
+        #     pass
         with open("websites/"+term+"/"+term+".websites") as f:
             for index, line in enumerate(f.readlines()):
                 try:
@@ -147,10 +152,14 @@ def combineCSV(terms):
                 except:
                     None
 
+ignore = ["reason", "warning", "answer", "condition", "scratch", "reputation", "command", "potential", "pot", "manager", "purpose", "pressure", "card", "guy", "proof", "wrap", "spite", "being", "guess", "care", "obligation", "war", "army", "earth", "child", "show", "register", "reputation", "pull", "pause", "line", "surprise", "theme", "brave", "garage", "loss", "cycle", "period", "wear", "pack", "audience", "ear", "business", "basis", "second", "depression", "mode", "community", "distance", "harm", "spare", "business", "confidence", "spot", "professor", "block", "particular", "nothing", "taste", "quiet", "equal", "look", "offer", "brown", "physical", "head", "doubt", "year", "excitement", "report", "pie", "bend", "top", "contract", "opinion", "classic", "floor", "leg", "session", "gas", "garage", "carpet", "fish", "permit", "shock", "tour", "lip", "combine", "entertainment", "milk", "sock", "prize", "few", "bird", "actor", "expert", "crew", "emotion", "role", "march"]
+
 def combineJSON(terms):
     total = {}
     totalTags = {}
     for term in terms:
+        # if term in ignore:
+        #     pass
         with open("websites/"+term+"/"+term+".websites") as f:
             for index, url in enumerate(f.readlines()):
                 print(index)
@@ -192,8 +201,12 @@ def combineJSON(terms):
 # "Barack Obama", "Pizza", "Computers", "Baseball", "Alexa", "SEO", "Twitter", "potato", "steak", "building", "sweet potato", "mashed potato", "pokemon fled", "cat", "spicy", "projector"
 
 searchTerms = []
-with open("terms.json") as f:
-    searchTerms = json.load(f)
+try:
+    with open("terms.json") as f:
+        searchTerms = json.load(f)
+except:
+    None
+
 
 ########## REDO BEING, guess, ear, physical, floor, gas
 
@@ -207,4 +220,5 @@ with open("terms.json") as f:
 # compileTagsToCSV(searchTerms)
 combineCSV(searchTerms)
 # combineJSON(searchTerms)
+# generateSearchTerms(100)
 print('done')
