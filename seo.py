@@ -6,6 +6,7 @@ import os
 import json
 import re
 import random
+from os import walk
 from collections import Counter
 
 def prop(oldValue, oldMin, oldMax, newMin, newMax):
@@ -71,7 +72,7 @@ def getHTML(term):
                 obj['url'] = URL
                 obj['robots'] = True
                 obj['errors'] = len(errors['messages'])
-                for char in '/:. if&=':
+                for char in '/:. if&=\n':
                     file = file.replace(char,'')
                 with open("websites/"+term+"/"+file+".json", "w") as f:
                     print("websites/"+term+"/"+file+".json")
@@ -97,7 +98,7 @@ def convertTagsToCSV(term):
     try:
         with open("websites/"+term+"/"+term+".websites") as f:
             for line in f.readlines():
-                for char in '/:. if&=\n':
+                for char in '/:. if&=\n\n':
                     line = line.replace(char,'')
                 with open("websites/"+term+"/"+line+".json") as f:
                     data = json.load(f)
@@ -124,7 +125,7 @@ def combineCSV(terms):
         with open("websites/"+term+"/"+term+".websites") as f:
             for index, line in enumerate(f.readlines()):
                 try:
-                    for char in '/?:.&=\n':
+                    for char in '/:. if&=\n':
                         line = line.replace(char,'')
                     with open("websites/"+term+"/"+line+".json") as f:
                         data = json.load(f)
@@ -157,15 +158,14 @@ ignore = ["reason", "warning", "answer", "condition", "scratch", "reputation", "
 def combineJSON(terms):
     total = {}
     totalTags = {}
-    for term in terms:
-        # if term in ignore:
-        #     pass
+    for ui, term in enumerate(terms):
+        print(terms)
         with open("websites/"+term+"/"+term+".websites") as f:
             for index, url in enumerate(f.readlines()):
-                print(index)
+                print(ui * index)
                 try:
                     line = url
-                    for char in '/:?.&=\n':
+                    for char in '/:. if&=\n':
                         line = line.replace(char,'')
                     with open("websites/"+term+"/"+line+".json") as g:
                         data = json.load(g)
@@ -208,6 +208,13 @@ except:
     None
 
 
+
+termsasdf  = os.walk('websites')
+searchTerms = [x[0][9:] for x in termsasdf][1:]
+for term in searchTerms:
+    print(term)
+
+
 ########## REDO BEING, guess, ear, physical, floor, gas
 
 # searchTerms = ["garage", "carpet", "fish", "permit", "shock", "tour", "lip", "combine", "entertainment", "milk", "sock", "prize", "few", "bird", "actor", "expert", "crew", "emotion", "role", "march"]
@@ -218,7 +225,7 @@ except:
 # compileHTML(searchTerms)
 # getHTML('actor')
 # compileTagsToCSV(searchTerms)
-combineCSV(searchTerms)
-# combineJSON(searchTerms)
+# combineCSV(searchTerms)
+combineJSON(searchTerms)
 # generateSearchTerms(100)
 print('done')
