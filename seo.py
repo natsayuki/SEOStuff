@@ -159,36 +159,35 @@ def combineJSON(terms):
     total = {}
     totalTags = {}
     for ui, term in enumerate(terms):
-        print(terms)
         with open("websites/"+term+"/"+term+".websites") as f:
             for index, url in enumerate(f.readlines()):
                 print(ui * index)
-                try:
-                    line = url
-                    for char in '/:. if&=\n':
-                        line = line.replace(char,'')
-                    with open("websites/"+term+"/"+line+".json") as g:
-                        data = json.load(g)
-                        data['term'] = term
-                        data['robots'] = 1 if data['robots'] else 0
-                        data['ssl'] = 1 if data['ssl'] else 0
-                        data['termsInTitle'] = len(data['termsInTitle'])
-                        data['termsInPage'] = len(data['termsInPage'])
-                        data['rank'] = index
-                        tags = data['tags']
-                        data['h1'] = tags['h1'] if 'h1' in tags else 0
-                        data['meta'] = tags['meta'] if 'meta' in tags else 0
-                        data['script'] = tags['script'] if 'script' in tags else 0
-                        data['img'] = tags['img'] if 'img' in tags else 0
-                        data['iframe'] = tags['iframe'] if 'iframe' in tags else 0
-                        data['video'] = tags['video'] if 'video' in tags else 0
-                        data['p'] = tags['p'] if 'p' in tags else 0
-                        data['link'] = tags['link'] if 'link' in tags else 0
-                        data['a'] = tags['a'] if 'a' in tags else 0
-                    # totalTags[data['url']] = totalTagsTemp
-                    total[data['url']] = data
-                except:
-                    None
+                # try:
+                line = url
+                for char in '/:.&=\n':
+                    line = line.replace(char,'')
+                with open("websites/"+term+"/"+line+".json") as g:
+                    data = json.load(g)
+                    data['term'] = term
+                    data['robots'] = 1 if data['robots'] else 0
+                    data['ssl'] = 1 if data['ssl'] else 0
+                    data['termsInTitle'] = len(data['termsInTitle'])
+                    data['termsInPage'] = len(data['termsInPage'])
+                    data['rank'] = index
+                    tags = data['tags']
+                    data['h1'] = tags['h1'] if 'h1' in tags else 0
+                    data['meta'] = tags['meta'] if 'meta' in tags else 0
+                    data['script'] = tags['script'] if 'script' in tags else 0
+                    data['img'] = tags['img'] if 'img' in tags else 0
+                    data['iframe'] = tags['iframe'] if 'iframe' in tags else 0
+                    data['video'] = tags['video'] if 'video' in tags else 0
+                    data['p'] = tags['p'] if 'p' in tags else 0
+                    data['link'] = tags['link'] if 'link' in tags else 0
+                    data['a'] = tags['a'] if 'a' in tags else 0
+                # totalTags[data['url']] = totalTagsTemp
+                total[data['url']] = data
+                # except:
+                #     None
     with open("websites/total.json", "w") as f:
         json.dump(total, f)
     with open("websites/totaltags.json", "w") as f:
@@ -211,8 +210,6 @@ except:
 
 termsasdf  = os.walk('websites')
 searchTerms = [x[0][9:] for x in termsasdf][1:]
-for term in searchTerms:
-    print(term)
 
 
 ########## REDO BEING, guess, ear, physical, floor, gas
